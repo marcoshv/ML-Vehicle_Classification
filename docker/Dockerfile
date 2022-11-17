@@ -1,5 +1,8 @@
 FROM python:3.8.13 as base
 
+ARG USER_ID
+ARG GROUP_ID
+
 # Install some packages
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -11,7 +14,8 @@ RUN apt-get update && \
     curl
 
 # Add a non-root user
-RUN useradd -ms /bin/bash app
+RUN addgroup --gid $GROUP_ID app
+RUN adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID app
 USER app
 
 # Setup some paths
