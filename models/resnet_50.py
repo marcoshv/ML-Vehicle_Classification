@@ -8,8 +8,8 @@ def create_model(
     input_shape: tuple = (224, 224, 3),
     dropout_rate: float = 0.0,
     data_aug_layer: dict = None,
-    #kernel_l2 = 0.001, # Forth and fifth experiment 
-    #bias_l2 = 0.001, # Forth and fifth experiment 
+    kernel_l2 = 0.001, # From third experiment on 
+    bias_l2 = 0.001, # From third experiment on 
     classes: int = None,
 ):
     """
@@ -117,10 +117,10 @@ def create_model(
         # `classes` parameter
         # Assign it to `outputs` variable
         # TODO
-        outputs = tf.keras.layers.Dense(classes, kernel_regularizer='l2',activation='softmax')(x) # First, second and third experiment
+        outputs = tf.keras.layers.Dense(classes, kernel_regularizer='l2',activation='softmax')(x) # First and second experiment
 
         #outputs = tf.keras.layers.Dense(classes, kernel_regularizer=regularizers.L2(kernel_l2),
-                    #bias_regularizer=regularizers.L2(bias_l2),activation='softmax')(x) # Third experiment
+                    #bias_regularizer=regularizers.L2(bias_l2),activation='softmax')(x) # From third experiment on
 
         # Now you have all the layers in place, create a new model
         # Use keras.Model()

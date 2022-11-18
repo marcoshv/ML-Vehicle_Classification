@@ -60,24 +60,30 @@ def get_vehicle_coordinates(img):
     """
     # TODO
     outputs = DET_MODEL(img)
-    classes_found = outputs['instances'].pred_classes
-    index = -1
-    box_area_list=[]
-    coordinates_list=[]
-    for classes in classes_found:
-        index += 1
-        class_num = classes.item()
-        if class_num != 2 or class_num != 7:
-            img_heigth = img.shape[0]
-            img_width = img.shape[1]
-            box_coordinates = [0, 0, img_width, img_heigth]
-        if class_num == 2 or class_num == 7: # ignore other detected objects
-            x1 = int(outputs["instances"].pred_boxes.tensor[index][0].item())
-            y1 = int(outputs["instances"].pred_boxes.tensor[index][1].item())
-            x2 = int(outputs["instances"].pred_boxes.tensor[index][2].item())
-            y2 = int(outputs["instances"].pred_boxes.tensor[index][3].item())
-            box_area_list.append(abs(x2-x1) * abs(y2-y1))
-            coordinates_list.append([x1,y1,x2,y2])
-            max_area_index = box_area_list.index(max(box_area_list))
-            box_coordinates = coordinates_list[max_area_index]
+    classes_found = outputs['instances'].pred_classes.cpu().numpy()
+    boxes = outputs["instances"].pred_boxes.tensor.cpu().numpy()
+    if len(classes_found) != 0 and len(boxes) != 0:
+        index = -1
+        box_area_list=[]
+        coordinates_list=[]
+        for class_num in classes_found:
+            index += 1
+            if class_num == 2 or class_num == 7: # ignore other detected objects
+                x1 = int(boxes[index][0])
+                y1 = int(boxes[index][1])
+                x2 = int(boxes[index][2])
+                y2 = int(boxes[index][3])
+                box_area_list.append(abs(x2-x1) * abs(y2-y1))
+                coordinates_list.append((x1,y1,x2,y2))
+                max_area_index = box_area_list.index(max(box_area_list))
+                box_coordinates = coordinates_list[max_area_index]
+            else:
+                img_heigth = img.shape[0]
+                img_width = img.shape[1]
+                box_coordinates = [0, 0, img_width, img_heigth]
+    else:
+        img_heigth = img.shape[0]
+        img_width = img.shape[1]
+        box_coordinates = [0, 0, img_width, img_heigth]
+
     return box_coordinates

@@ -9,10 +9,12 @@ same directory structure with its subfolders but with new images.
 """
 
 import argparse
-import utils
 import os
-from tensorflow.keras.utils import load_img
-
+#from tensorflow.keras.utils import load_img
+from utils.utils import walkdir
+from utils.detection import get_vehicle_coordinates
+import cv2
+import time
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Train your model.")
@@ -62,12 +64,14 @@ def main(data_folder, output_data_folder):
     #      `data_folder` structure.
     # TODO
     #1.Iterate over each image in `data_folder`
-    for (dirpath, file_name) in utils.walkdir(data_folder): # Iterate over each image in `data_folder`
+    print(data_folder)
+    for (dirpath, file_name) in walkdir(data_folder): # Iterate over each image in `data_folder`
         full_path = os.path.join(dirpath, file_name)
+        print(full_path)
         #2 Use keras.utils.load_img() to load image
-        image = load_img(full_path)
+        image = cv2.imread(full_path)
         #3 Run the detector and get the vehicle coordinates
-        box_coorinates = utils.detection.get_vehicle_coordinates(image)
+        box_coorinates = get_vehicle_coordinates(image)
         #4 Crop the image
         cropped_image= image[box_coorinates[1]:box_coorinates[3], box_coorinates[0]:box_coorinates[2],:]
         #5 Get label
@@ -82,16 +86,17 @@ def main(data_folder, output_data_folder):
             if not os.path.isdir(cropped_train_path):
                 os.makedirs(cropped_train_path)
             cropped_train_img_path = os.path.join(cropped_train_path, file_name)
-            cropped_image.save(os.path.join(cropped_train_img_path, file_name))
-        elif 'test' in full_path:
+            cv2.imwrite(cropped_train_img_path, cropped_image)
+        if 'test' in full_path:
             cropped_test_path = os.path.join(test_folder, label)
             if not os.path.isdir(cropped_test_path):
                 os.makedirs(cropped_test_path)
-            cropped_test_img_path = os.path.join(cropped_train_path, file_name)
-            cropped_image.save(os.path.join(cropped_test_img_path, file_name))
-        else:
-            print('There are not cropped images found')
+            cropped_test_img_path = os.path.join(cropped_test_path, file_name)
+            cv2.imwrite(cropped_test_img_path, cropped_image)
+        time.sleep(0.1) # Time gap necesary to be able to acces image file in folder
 
+        
+    
 
 if __name__ == "__main__":
     args = parse_args()

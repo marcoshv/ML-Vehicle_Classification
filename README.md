@@ -8,20 +8,20 @@ You can use `Docker` to install all the needed packages and libraries easily. Tw
 - **CPU:**
 
 ```bash
-$ docker build -t sp_05 -f docker/Dockerfile .
+$ docker build -t sp_05_mhv -f docker/Dockerfile .
 ```
 ```bash
-$ docker build -t sp_05 --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) -f docker/Dockerfile .
+$ docker build -t sp_05_mhv --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) -f docker/Dockerfile .
 ```
 
 
 - **GPU:**
 
 ```bash
-$ docker build -t sp_05 -f docker/Dockerfile_gpu .
+$ docker build -t sp_05_mhv -f docker/Dockerfile_gpu .
 ```
 ```bash
-$ docker build -t sp_05 --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) -f docker/Dockerfile_gpu .
+$ docker build -t sp_05_mhv --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) -f docker/Dockerfile_gpu .
 ```
 
 ### Run Docker
@@ -29,13 +29,13 @@ $ docker build -t sp_05 --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -
 - **CPU:**
 
 ```bash
-$ docker run --rm --net host -it -v "$(pwd):/home/app/src" --workdir /home/app/src sp_05 bash
+$ docker run --rm --net host -it -v "$(pwd):/home/app/src" --workdir /home/app/src sp_05_mhv bash
 ```
 
 - **GPU:**
 
 ```bash
-$ docker run --rm --net host --gpus all -it -v "$(pwd):/home/app/src" --workdir /home/app/src sp_05 bash
+$ docker run --rm --net host --gpus all -it -v "$(pwd):/home/app/src" --workdir /home/app/src sp_05_mhv bash
 ```
 
 
