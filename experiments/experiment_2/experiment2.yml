@@ -17,10 +17,10 @@ model:
         random_flip:
             mode: "horizontal_and_vertical"
         random_rotation:
-            factor: 0.2
+            factor: 0.3
         random_zoom:
-            height_factor: 0.2
-            width_factor: 0.2
+            height_factor: 0.3
+            width_factor: 0.3
 
 compile:
     optimizer:

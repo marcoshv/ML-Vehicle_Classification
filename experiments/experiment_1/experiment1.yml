@@ -12,15 +12,15 @@ model:
     weights: "imagenet"
     input_shape: [224, 224, 3]
     classes: 196
-    dropout_rate: 0.2
+    dropout_rate: 0.5
     data_aug_layer:
         random_flip:
             mode: "horizontal_and_vertical"
         random_rotation:
-            factor: 0.2
+            factor: 0.5
         random_zoom:
-            height_factor: 0.2
-            width_factor: 0.2
+            height_factor: 0.5
+            width_factor: 0.5
 
 compile:
     optimizer:
@@ -31,7 +31,7 @@ compile:
     metrics: ["accuracy"]
 
 fit:
-    epochs: 50
+    epochs: 150
     callbacks:
         model_checkpoint:
             filepath: "/home/app/src/experiments/experiment_1/training_epochs/model.{epoch:02d}-{val_loss:.4f}.h5"
