@@ -8,9 +8,9 @@ def create_model(
     input_shape: tuple = (224, 224, 3),
     dropout_rate: float = 0.0,
     data_aug_layer: dict = None,
-    kernel_l2 = 0.001, # From second test on
-    bias_l2 = 0.001, # From second test on
-    activity_l2 = 0.001,
+    kernel_l2 = 0.0001, # 0.001 first and second experiment, 0.0001 from thrid experiment on
+    bias_l2 = 0.0001, # 0.001 first and second experiment, 0.0001 from thrid experiment on
+    activity_l2 = 0.0001, # 0.001 first and second experiment, 0.0001 from thrid experiment on
     classes: int = None,
 ):
     """
@@ -120,7 +120,7 @@ def create_model(
         # TODO
         #outputs = tf.keras.layers.Dense(classes, kernel_regularizer='l2',activation='softmax')(x) # 
 
-        outputs = tf.keras.layers.Dense(classes, kernel_regularizer=regularizers.L2(kernel_l2), # 
+        outputs = tf.keras.layers.Dense(classes, kernel_regularizer=regularizers.L2(kernel_l2), # First experiment
                     bias_regularizer=regularizers.L2(bias_l2),
                     activity_regularizer=regularizers.L2(activity_l2) ,activation='softmax')(x)
 
@@ -133,7 +133,6 @@ def create_model(
         # For this particular case we want to load our already defined and
         # finetuned model, see how to do this using keras
         # Assign it to `model` variable
-        # TODO
         model = tf.keras.models.load_model(weights)
         model.trainable = True
 

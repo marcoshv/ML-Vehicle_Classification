@@ -1,7 +1,7 @@
 seed: 123
 
 data:
-    directory: "/home/app/src/data/cars_ims_v1/train"
+    directory: "/home/app/src/data/cars_ims_v2/train"
     labels: "inferred"
     label_mode: "categorical"
     validation_split: 0.2
@@ -9,7 +9,7 @@ data:
     batch_size: 32
 
 model:
-    weights: "/home/app/src/experiments/experiment_1/training_epochs/model.186-3.2971.h5"
+    weights: "/home/app/src/experiments/experiment_2/training_epochs/model.44-1.8209.h5"
     input_shape: [224, 224, 3]
     classes: 196
     dropout_rate: 0.5
@@ -17,10 +17,10 @@ model:
         random_flip:
             mode: "horizontal_and_vertical"
         random_rotation:
-            factor: 0.5
+            factor: 0.3
         random_zoom:
-            height_factor: 0.5
-            width_factor: 0.5
+            height_factor: 0.3
+            width_factor: 0.3
 
 compile:
     optimizer:
@@ -31,13 +31,13 @@ compile:
     metrics: ["accuracy"]
 
 fit:
-    epochs: 150
+    epochs: 100
     callbacks:
         model_checkpoint:
-            filepath: "/home/app/src/experiments/experiment_2/training_epochs/model.{epoch:02d}-{val_loss:.4f}.h5"
+            filepath: "/home/app/src/experiments/experiment_3/training_epochs/model.{epoch:02d}-{val_loss:.4f}.h5"
             save_best_only: true
         tensor_board:
-            log_dir: "/home/app/src/experiments/experiment_2/logs"
+            log_dir: "/home/app/src/experiments/experiment_3/logs"
         early_stopping:
            monitor: 'val_loss'
            patience: 10

@@ -31,7 +31,7 @@ compile:
     metrics: ["accuracy"]
 
 fit:
-    epochs: 150
+    epochs: 200
     callbacks:
         model_checkpoint:
             filepath: "/home/app/src/experiments/experiment_1/training_epochs/model.{epoch:02d}-{val_loss:.4f}.h5"

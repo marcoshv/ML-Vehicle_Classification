@@ -148,7 +148,7 @@ def predict_from_folder(folder, model, input_size, class_names):
         full_path = os.path.join(dirpath, file_name)
         image = load_img(full_path, target_size=input_size) # Use keras.utils.load_img() to load image
         image_array = img_to_array(image) # Use keras.utils.img_to_array() to convert it to array
-        image_array_batch = np.expand_dims(image_array) # Create batch
+        image_array_batch = np.expand_dims(image_array, axis=0) # Create batch
         preds = model.predict(image_array_batch)
         predicted_class = class_names[np.argmax(preds)]
         predictions_list.append(predicted_class)
